@@ -1,3 +1,5 @@
+const expenses = require("../models/expenses")
+
 const constants = {
 httpStatusCode: {
     success: 200,
@@ -42,7 +44,8 @@ httpStatusCode: {
  moduleNames: {
     models:"models",
     users: "auth",
-    categories: "categories"
+    categories: "categories",
+    expenses: 'expenses'
  },
 
  }
