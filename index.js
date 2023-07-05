@@ -13,7 +13,9 @@ middlewares(app)
 
 routes(app)
 // Function Call To Sync App Database Tables Before the Start of the Application
-db.sequelize.sync().then((status) =>{
+db.sequelize.sync(
+    {alter: false}
+).then((status) =>{
     console.log('My SQL Tables Synced Successfully.');
 app.listen(process.env.PORT || config.get('server.port'),()=>{
 console.log(`server is running Happily !`, process.pid , config.get('server.port') )
