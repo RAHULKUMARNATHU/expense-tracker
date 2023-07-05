@@ -22,8 +22,19 @@ httpStatusCode: {
     msg_revalidate: 'Schema Validation Failed',
     msg_user_unauthorized_access: 'Unauthorized Access',
     msg_no_data: 'No Data Found',
-    msg_usr_already_exits:'User Already Exist'
-    }
+    msg_usr_already_exits:'User Already Exist',
+    msg_session_expired:'User Session Expired', 
+    msg_unauthorized_user:'UnAuthorized User'
+   }
+ },
+
+ publicAPI:[
+   '/user/signup',
+   '/user/login'
+ ],
+ limit:15,
+ publicAccessToken:{
+  token:'3ls20684-3fb7-9327-8392-3ps920t92746'
  },
  moduleNames: {
     models:"models",

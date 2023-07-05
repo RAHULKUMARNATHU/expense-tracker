@@ -23,6 +23,11 @@ module.exports = function(sequelize , DataTypes) {
             password:{
                 type:DataTypes.STRING(200),
                 allowNull:false
+            },
+            isVerified:{
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: false
             }
             
         },
