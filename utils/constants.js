@@ -24,7 +24,8 @@ httpStatusCode: {
     msg_no_data: 'No Data Found',
     msg_usr_already_exits:'User Already Exist',
     msg_session_expired:'User Session Expired', 
-    msg_unauthorized_user:'UnAuthorized User'
+    msg_unauthorized_user:'UnAuthorized User',
+    msg_data_already_exits:'Data Already Exist'
    }
  },
 
@@ -35,10 +36,13 @@ httpStatusCode: {
  limit:15,
  publicAccessToken:{
   token:'3ls20684-3fb7-9327-8392-3ps920t92746'
- },
+
+  },
+
  moduleNames: {
     models:"models",
-    users: "auth"
+    users: "auth",
+    categories: "categories"
  },
 
  }
