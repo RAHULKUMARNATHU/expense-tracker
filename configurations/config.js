@@ -112,8 +112,24 @@ const config = convict({
       format: Boolean,
       default: false,
     },
+  },
+  JWT_TOKEN: {
+    SECRET:{
+      doc: 'Holds the JWT secret',
+      format: String,
+      default: '$2a$10$e.oPc.dyrwRoQCpDvO9Rhe'
+    },
+    ExpireTime: {
+      doc: 'Holds the JWT Token Expiration Time',
+      format: String,
+      default: '1d'
+    },
   }
 });
+
+
+
+
 
 config.loadFile(path.join(__dirname, '/config-' + config.get('env') + '.json'))
 

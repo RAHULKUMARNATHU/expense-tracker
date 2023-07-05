@@ -1,6 +1,8 @@
 const constants = require('./constants')
 const config = require('../configurations/config')
 const _ = require('lodash')
+const jwt = require("jsonwebtoken")
+
 
 const sanitize = function(object , schema , modelName){
     const schemaKeys = _.keys(schema.properties)
@@ -32,6 +34,25 @@ const sanitize = function(object , schema , modelName){
 }
 
 
+const generateToken =  async(reqData)=>{
+    const payload = {
+        user_id : reqData.user_id,
+        email:reqData.email
+    }
+   return jwt.sign(payload ,
+    config.get('JWT_TOKEN.SECRET'),
+    { expiresIn:  config.get('JWT_TOKEN.ExpireTime')})  
+}
+
+const decryptToken = async(token) => {
+    return jwt.verify(token , 'JWT_TOKEN.SECRET')
+}
+
+
+
+
 module.exports = {
-    sanitize: sanitize
+    sanitize: sanitize,
+    generateToken: generateToken,
+    decryptToken: decryptToken
 }
