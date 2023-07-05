@@ -26,6 +26,32 @@ schemas.createUser = {
     }
 }
 
+schemas.verifyUser = {
+    id:'/verify',
+    type:'object',
+    properties:{
+        token :{
+            type:'string',
+            required:true
+        }
+    }
+}
+
+schemas.login = {
+    id:'/login',
+    type:'object',
+    properties:{
+        username:{
+            type:'string',
+            required:true
+        },
+        password:{
+            type:'string',
+            required:true
+        }
+    }
+}
+
 
 schemas.validate = function(object , schema){
     const errors = _validator.validate(object , schema).errors

@@ -44,10 +44,18 @@ const generateToken =  async(reqData)=>{
     { expiresIn:  config.get('JWT_TOKEN.ExpireTime')})  
 }
 
-const decryptToken = async(token) => {
-    return jwt.verify(token , 'JWT_TOKEN.SECRET')
-}
+const decryptToken = async (token) => {
+ if(!token){
+    return (constants.messageKeys.en.msg_session_expired, constants.httpStatusCode.forbidden)
+ }
+ const payload = await jwt.verify(token ,config.get("JWT_TOKEN.SECRET"), { expiresIn:  config.get('JWT_TOKEN.ExpireTime')} )
+  if(payload){
+    return payload
+  }else{
+   return (constants.messageKeys.en.msg_session_expired, constants.httpStatusCode.forbidden)
+  }
 
+}
 
 
 

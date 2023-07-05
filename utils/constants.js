@@ -31,6 +31,7 @@ httpStatusCode: {
 
  publicAPI:[
    '/user/signup',
+   '/user/verify',
    '/user/login'
  ],
  limit:15,

@@ -8,7 +8,6 @@ auth.userRegistration = async (requestData) => {
 try{
     const hashed = encryption.getEncryptedPassword(requestData.password)
     const user = await sqlInstance.sequelize.models.users.create({...requestData , password : hashed.password + ':' + hashed.salt})   
-    console.log(user);
     if(user){
        let tokenDetails ={
         user_id: user.user_id,
@@ -27,13 +26,35 @@ try{
 }
 }
 
-auth.verifyToken = async(requestData) => {
+auth.verifyUser = async(requestData) => {
     try{
-
+        const user = await sqlInstance.sequelize.models.users.findOne({
+            where:{
+                user_id:requestData.user_id
+            }
+        })
+        if(user.isVerified === false){
+            user.isVerified = true;
+            user.save(user)
+            return true;
+        }
+        return false;
     }catch(error){
+
         throw new Error(error)
     }
 }
 
+auth.login = async (requestData) => {
+    const user = await sqlInstance.sequelize.models.findOne({
+        where:{
+            email:requestData.username
+        }
+    })
+    if(user){
+        const isMatched = bcrypt.compare(requestData.password , user.password)
+        console.log(isMatched);
+    }
+}
 
 module.exports = auth

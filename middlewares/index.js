@@ -1,13 +1,12 @@
 const bodyParser = require('body-parser')
 const config = require('../configurations/config')
 const constants = require('../utils/constants')
-
+const jwt  = require('jsonwebtoken')
 
 
 
 module.exports = function(app){
-
-    // Enable request body parsing
+ // Enable request body parsing
   app.use(bodyParser.urlencoded({
     extended: true,
     limit: config.get('server.bodyParser.limit')
@@ -17,7 +16,7 @@ module.exports = function(app){
   app.use(bodyParser.json({
     limit: config.get('server.bodyParser.limit')
   }))
-   // verify session token
+   // verify token
    app.use( verifyToken, function (req, res, next) {
     if (req.isAuthenticatedUser) {
       next()
@@ -35,6 +34,7 @@ module.exports = function(app){
     if(req.headers.authorization && constants.publicAPI.indexOf(req.path) < 0){
       const token = req.headers.authorization
       const userId = jwt.decode(token) ? jwt.decode(token).user_id : ""
+      console.log(userId);
       if(userId){
         checkValidUserToken(token , userId , req , next)
       }else
@@ -50,7 +50,10 @@ module.exports = function(app){
           req.isAuthenticatedUser = false
           next()
         }
-      }
+      }else {
+      req.isAuthenticatedUser = false
+      next()
+    }
 
 }
 
