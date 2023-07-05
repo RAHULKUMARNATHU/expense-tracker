@@ -22,12 +22,14 @@ httpStatusCode: {
     msg_revalidate: 'Schema Validation Failed',
     msg_user_unauthorized_access: 'Unauthorized Access',
     msg_no_data: 'No Data Found',
-    msg_usr_already_exits:'User Already Exist'
+    msg_usr_already_exits:'User Already Exist',
+    msg_data_already_exits:'Data Already Exist'
     }
  },
  moduleNames: {
     models:"models",
-    users: "auth"
+    users: "auth",
+    categories: "categories"
  },
 
  }
