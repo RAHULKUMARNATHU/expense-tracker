@@ -4,8 +4,12 @@ const config = require('./configurations/config')
 const routes = require('./routes/index')
 const db = require('./database/mysql')
 const app = express()
+const middlewares = require('./middlewares/index')
 
 
+
+// setup middlewares
+middlewares(app)
 
 routes(app)
 // Function Call To Sync App Database Tables Before the Start of the Application
