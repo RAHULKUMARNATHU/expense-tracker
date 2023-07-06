@@ -37,7 +37,6 @@ const sanitize = function(object , schema , modelName){
 const generateToken =  async(reqData)=>{
     const payload = {
         user_id : reqData.user_id,
-        email:reqData.email
     }
    return jwt.sign(payload ,
     config.get('JWT_TOKEN.SECRET'),

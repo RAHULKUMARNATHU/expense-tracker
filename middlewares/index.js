@@ -34,7 +34,6 @@ module.exports = function(app){
     if(req.headers.authorization && constants.publicAPI.indexOf(req.path) < 0){
       const token = req.headers.authorization
       const userId = jwt.decode(token) ? jwt.decode(token).user_id : ""
-      console.log(userId);
       if(userId){
         checkValidUserToken(token , userId , req , next)
       }else

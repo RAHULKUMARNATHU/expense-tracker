@@ -11,6 +11,18 @@ const getEncryptedPassword = function(password){
 }
 
 
+const validatePassword = function (password, hashedPassword) {
+  let isValidPassword = false
+  const splitValues = hashedPassword.split(':')
+  const salt = splitValues[1]
+  const hashValue = bcrypt.hashSync(password, salt).substring(29)
+  if (hashValue === splitValues[0]) {
+    isValidPassword = true
+  }
+  return isValidPassword
+}
+
 module.exports = {
-    getEncryptedPassword : getEncryptedPassword
+    getEncryptedPassword : getEncryptedPassword,
+    validatePassword:validatePassword
 }

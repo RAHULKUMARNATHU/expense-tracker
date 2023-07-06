@@ -1,8 +1,8 @@
 const sqlInstance = require('../../database/mysql')
 const encryption = require('../../utils/encryption')
 const constants = require('../../utils/constants')
-const auth = function (){}
 const common = require('../../utils/common')
+const auth = function (){}
 
 auth.userRegistration = async (requestData) => {
 try{
@@ -11,7 +11,6 @@ try{
     if(user){
        let tokenDetails ={
         user_id: user.user_id,
-        email: user.email
        } 
        const token = await common.generateToken(tokenDetails)
        return token
@@ -46,14 +45,17 @@ auth.verifyUser = async(requestData) => {
 }
 
 auth.login = async (requestData) => {
-    const user = await sqlInstance.sequelize.models.findOne({
-        where:{
-            email:requestData.username
-        }
-    })
+    const user = await sqlInstance.sequelize.models.users.findOne({where:{email:requestData.username }})
     if(user){
-        const isMatched = bcrypt.compare(requestData.password , user.password)
-        console.log(isMatched);
+        const isMatched = encryption.validatePassword(requestData.password , user.password)
+        if(isMatched){
+            let tokenDetails= {user_id :user.user_id}
+            return common.generateToken(tokenDetails)
+        }else{
+            return false 
+        }
+    }else{
+        return false
     }
 }
 
