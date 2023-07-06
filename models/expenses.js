@@ -2,7 +2,7 @@ module.exports = function (sequelize, DataTypes) {
   const expenses = sequelize.define(
     "expenses",
     {
-      expense_id: {
+      id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -34,5 +34,13 @@ module.exports = function (sequelize, DataTypes) {
       targetKey: "user_id",
     })
   }
+
+  expenses.associate = function (model) {
+    expenses.belongsTo(model.categories, {
+      foreignKey: "category_id",
+      targetKey: "category_id",
+    })
+  }  
+
   return expenses
 }

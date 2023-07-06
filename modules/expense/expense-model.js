@@ -16,10 +16,7 @@ expense.createExpense = async (requestData) => {
     //     console.log(`Cannot Create Taluka.The referenced district does not exist:`, error.message)
     //     throw new Error(constants.messageKeys.en.msg_ref_error)
     //   }
-      if (error.name.toLowerCase() === 'sequelizeuniqueconstrainterror') {
-        console.log(`Expense With Same Category Exist:`, error.message)
-        throw new Error(constants.messageKeys.en.msg_data_already_exits + ' for this category')
-      }
+
       console.log('Error in expense.createExpense while saving expense details. Error: %j', error.message)
       throw new Error(error)
     }
@@ -35,12 +32,8 @@ expense.createExpense = async (requestData) => {
         console.log('Failed To Updated expense Details Of Expense Id:', requestData.expense_id)
         return false
       }
-    } catch (error) {
-      if (error.name.toLowerCase() === 'sequelizeuniqueconstrainterror') {
-        logger.error(util.format(`Expense With Same Category Exist:`, error.message))
-        throw new Error(constants.messageKeys.en.msg_data_already_exits)
-      }
-      logger.error(util.format('Error in expense.updateExpense while updating expense details. Error: %j', error.message))
+    } catch (error) { 
+     console.log('Error in expense.updateExpense while updating expense details. Error: %j', error.message)
       throw new Error(error)
     }
   }

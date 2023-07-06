@@ -7,7 +7,7 @@ schemas.createExpense = {
   id: "/createExpense",
   type: "object",
   properties: {
-    category: {
+    category_id: {
       type: "string",
       required: true,
     },
