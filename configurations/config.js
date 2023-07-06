@@ -14,7 +14,7 @@ const config = convict({
     port: {
       doc: "HTTP port on which server will run",
       format: Number,
-      default: 8000,
+      default: 8001,
       // env: "PORT", // default will be changed when supplied from command line
     },
     timeout: {

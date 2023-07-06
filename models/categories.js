@@ -12,6 +12,10 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         unique: true,
       },
+      user_id: {
+      type:DataTypes.INTEGER,
+      required:true
+    }
     },
     {
       tableName: "categories",
