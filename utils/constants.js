@@ -35,7 +35,8 @@ httpStatusCode: {
    '/user/signup',
    '/user/verify',
    '/user/login',
-   '/expense/create'
+   '/expense/create',
+   '/expense/update',
  ],
  limit:15,
  publicAccessToken:{

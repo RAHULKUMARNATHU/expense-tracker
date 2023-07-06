@@ -2,7 +2,7 @@ const bodyParser = require('body-parser')
 const config = require('../configurations/config')
 const constants = require('../utils/constants')
 const jwt  = require('jsonwebtoken')
-
+const sqlInstance = require('../database/mysql')
 
 
 module.exports = function(app){
@@ -36,10 +36,11 @@ module.exports = function(app){
       const userId = jwt.decode(token) ? jwt.decode(token).user_id : ""
       if(userId){
         checkValidUserToken(token , userId , req , next)
-      }else
+      }else{
         req.isAuthenticatedUser = false
         next()
-
+      }
+        
       }
       else if(constants.publicAPI.indexOf(req.path) >= 0){
         if(req.headers.authorization === constants.publicAccessToken.token){
@@ -59,9 +60,9 @@ module.exports = function(app){
 
 const checkValidUserToken = async(token , userId , req , next) => {
   if(token){
-  const status =  verifyUserToken(token)
+  const status =  await verifyUserToken(token)
   if(status === constants.httpStatusCode.success){
-    const userDetails = await sqlInstance.sequelize.model.users.findOne({
+    let userDetails = await sqlInstance.sequelize.models.users.findOne({
       where:{
         user_id: userId
       }

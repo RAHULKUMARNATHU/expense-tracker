@@ -24,6 +24,11 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(200),
         allowNull: false,
       },
+      isVerified:{
+        type:DataTypes.BOOLEAN,
+        default:true,
+        allowNull:false
+      }
     },
     {
       tableName: "users",
