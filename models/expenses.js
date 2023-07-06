@@ -8,14 +8,17 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true,
       },
-      category: {
-        type: DataTypes.STRING(100),
+      category_id: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       description: {
         type: DataTypes.STRING(200),
         allowNull: false,
       },
+      amount: {
+        type:DataTypes.DOUBLE(10, 2) 
+      }
     },
     {
       tableName: "expenses",
