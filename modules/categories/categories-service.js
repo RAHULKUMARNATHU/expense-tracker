@@ -5,6 +5,7 @@ const categories = require('./categories-model')
 
 const createCategory = async function(req , res ){
     try{
+      req.body.user_id = req.user.user_id
         const reqData = common.sanitize(req.body , schemas.createCategory, constants.moduleNames.categories)
         if (schemas.validate(reqData, schemas.createCategory)) {
             const categoryDetails = await categories.createCategory(reqData)
@@ -30,6 +31,7 @@ const createCategory = async function(req , res ){
 
 const getAllCategoryList = async function (req, res) {
     try {
+       req.query.user_id = req.user.user_id
       const requestDetails = common.sanitize(req.query, schemas.getCategories, constants.moduleNames.categories)
       if (schemas.validate(requestDetails, schemas.getCategories)) {
         const categoriesList = await categories.getAllCategoryList(requestDetails)

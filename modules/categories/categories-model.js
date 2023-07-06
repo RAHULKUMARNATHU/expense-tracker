@@ -28,7 +28,7 @@ categories.getAllCategoryList = async (requestData ) => {
     try {
         const sortBy = requestData.sort_by || 'category_id'
         const sortType = requestData.sort_type || 'desc'
-        let Condition = {}
+        let Condition = {}        
         let offset
         if (requestData.limit && requestData.page) {
           offset = 0 + (parseInt(requestData.page) - 1) * parseInt(requestData.limit)
@@ -46,9 +46,10 @@ categories.getAllCategoryList = async (requestData ) => {
         if (requestData.category_id) {
             Condition = { category_id: requestData.category_id }
           }
-    
+        
         const categories = await sqlInstance.sequelize.models.categories.findAndCountAll({
-          where: Condition,
+          where:{[Op.and]:[{ [Op.or]: [{user_id: requestData.user_id},{admin_id: 1}]},Condition]},
+          attributes:["category_id","category_name", "created_at", "updated_at"],
           limit: parseInt(requestData.limit),
           offset: offset,
           order: [[sortBy, sortType]]

@@ -10,12 +10,15 @@ module.exports = function (sequelize, DataTypes) {
       category_name: {
         type: DataTypes.STRING(50),
         allowNull: false,
-        unique: true,
       },
       user_id: {
       type:DataTypes.INTEGER,
-      required:true
-    }
+      allowNull:true
+      },
+      admin_id:{
+      type: DataTypes.INTEGER,
+      allowNull:true
+      }
     },
     {
       tableName: "categories",
