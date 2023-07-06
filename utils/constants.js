@@ -34,7 +34,10 @@ httpStatusCode: {
  publicAPI:[
    '/user/signup',
    '/user/verify',
-   '/user/login'
+   '/user/login',
+   '/expense/create',
+   '/expense/update',
+   '/category/create'
  ],
  limit:15,
  publicAccessToken:{
