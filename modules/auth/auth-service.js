@@ -58,11 +58,16 @@ module.exports.login = async (req , res) => {
     const reqData = common.sanitize(req.body, schemas.login , constants.moduleNames.users)
     if(schemas.validate(reqData , schemas.login)){
     const authDetails = await auth.login(reqData)
+    if(authDetails){
     res.status(constants.httpStatusCode.success).send({
     code: constants.responseCodes.successfulOperation,
     message: constants.messageKeys.en.msg_success,
     data: authDetails
-      })
+    })
+    }res.status(constants.httpStatusCode.unauthorized).send({
+    code: constants.responseCodes.unauthorizedAccess,
+    message: constants.messageKeys.en.msg_unauthorized_user
+    })
     }else{
     res.status(constants.httpStatusCode.badRequest).send({
     code: constants.responseCodes.revalidation,

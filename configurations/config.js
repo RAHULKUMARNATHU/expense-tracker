@@ -102,11 +102,6 @@ const config = convict({
       },
       decimalNumbers: true,
     },
-    // logging: {
-    //   doc: "Whether Logging is Enabled or not",
-    //   format: Boolean,
-    //   default: false,
-    // },
     operatorsAliases: {
       doc: "Whether To Use Aliases For SQL Operations or not",
       format: Boolean,
@@ -124,11 +119,42 @@ const config = convict({
       format: String,
       default: '1d'
     },
+  },
+  mailer:{
+    host:{
+      doc:'Mailer Host',
+      format:String,
+      default:'smtp.sendgrid.net'
+    },
+    port: {
+      doc: 'Mailer Port',
+      format: String,
+      default: '587'
+    },
+    email: {
+      doc: 'Mailer Authentication Email',
+      format: String,
+      default: 'apikey'
+    },
+    password: {
+      doc: 'Mailer Authentication Password',
+      format: String,
+      default: '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'
+    },
+     supportMail: {
+      doc: 'Mailer Support Email',
+      format: String,
+      default: 'me.kumarrahul9572@gmail.com'
+    }
+    
   }
 });
 
 
-
+// TRANSPORT_HOST =smtp.sendgrid.net
+// TRANSPORT_USER =apikey
+// TRANSPORT_PASS = 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
+// FROM = me.kumarrahul9572@gmail.com
 
 
 config.loadFile(path.join(__dirname, '/config-' + config.get('env') + '.json'))
