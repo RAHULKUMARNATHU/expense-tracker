@@ -27,7 +27,8 @@ httpStatusCode: {
     msg_usr_already_exits:'User Already Exist',
     msg_session_expired:'User Session Expired', 
     msg_unauthorized_user:'UnAuthorized User',
-    msg_data_already_exits:'Data Already Exist'
+    msg_data_already_exits:'Data Already Exist',
+    msg_ref_error: 'Reference Error'
    }
  },
 
@@ -35,8 +36,6 @@ httpStatusCode: {
    '/user/signup',
    '/user/verify',
    '/user/login',
-   '/expense/create',
-   '/expense/update',
  ],
  limit:15,
  publicAccessToken:{
