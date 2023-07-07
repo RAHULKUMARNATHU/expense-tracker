@@ -3,7 +3,8 @@ const schemas = require('./categories-schema')
 const common = require('../../utils/common')
 const categories = require('./categories-model')
 
-const createCategory = async function(req , res ){
+/*create category */
+exports.createCategory = async function(req , res ){
     try{
       req.body.user_id = req.user.user_id
         const reqData = common.sanitize(req.body , schemas.createCategory, constants.moduleNames.categories)
@@ -29,7 +30,7 @@ const createCategory = async function(req , res ){
   }
 }
 
-const getAllCategoryList = async function (req, res) {
+exports.getAllCategoryList = async function (req, res) {
     try {
        req.query.user_id = req.user.user_id
       const requestDetails = common.sanitize(req.query, schemas.getCategories, constants.moduleNames.categories)
@@ -54,7 +55,7 @@ const getAllCategoryList = async function (req, res) {
     }
   }
 
-  const updateCategory = async function (req, res) {
+  exports.updateCategory = async function (req, res) {
     try {
       const requestDetails = common.sanitize(req.body, schemas.updateCategory, constants.moduleNames.categories)
       
@@ -78,8 +79,3 @@ const getAllCategoryList = async function (req, res) {
       })
     }
   }
-module.exports = {
-    createCategory,
-    getAllCategoryList,
-    updateCategory
-}

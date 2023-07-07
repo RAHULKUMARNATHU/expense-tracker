@@ -1,30 +1,30 @@
 const sqlInstance = require('../../database/mysql')
 const constants = require('../../utils/constants')
 const { Op } = require('sequelize')
-/**
- * @namespace
- */
-const categories = function () {
-}
+
 
 //Save category details
-categories.createCategory = async (requestData) => {
+exports.createCategory = async (requestData) => {
+  console.log(requestData);
   try {
+    const category = await sqlInstance.sequelize.models.categories.findOne({
+      where:{category_name : requestData.category_name , user_id: requestData.user_id}
+    })
+    if(category && category.user_id === requestData.user_id ){
+      throw new Error(constants.messageKeys.en.msg_data_already_exits)
+    }
+    else{
     await sqlInstance.sequelize.models.categories.create(requestData, { raw: true })
     console.log('Category Created Successfully of name', requestData.category_name)
     return true
-  } catch (error) {
-    if (error.name.toLowerCase() === 'sequelizeuniqueconstrainterror') {
-      console.log(`Category With Same Name Exist: ${ error }`)
-      throw new Error(constants.messageKeys.en.msg_data_already_exits)
     }
-    console.log('Error in categories.createCategory while saving category details. Error: %j', error.message)
+  } catch (error) {
     throw new Error(error)
   }
 }
 
 //Category List 
-categories.getAllCategoryList = async (requestData ) => {
+exports.getAllCategoryList = async (requestData ) => {
     try {
         const sortBy = requestData.sort_by || 'category_id'
         const sortType = requestData.sort_type || 'desc'
@@ -48,7 +48,7 @@ categories.getAllCategoryList = async (requestData ) => {
           }
         
         const categories = await sqlInstance.sequelize.models.categories.findAndCountAll({
-          where:{[Op.and]:[{ [Op.or]: [{user_id: requestData.user_id},{admin_id: 1}]},Condition]},
+          where:{[Op.and]:[{ [Op.or]: [{user_id: requestData.user_id},{is_created_by_admin : true}]},Condition]},
           attributes:["category_id","category_name", "created_at", "updated_at"],
           limit: parseInt(requestData.limit),
           offset: offset,
@@ -78,24 +78,26 @@ categories.getAllCategoryList = async (requestData ) => {
     }
 
 // Update Category Details
-categories.updateCategory = async (requestData) => {
+exports.updateCategory = async (requestData) => {
     try {
-      const data = await sqlInstance.sequelize.models.categories.update(requestData, { where: { category_id: requestData.category_id }, raw: true })
+      const category = await sqlInstance.sequelize.models.categories.findOne({
+      where:{category_name : requestData.category_name , user_id: requestData.user_id}
+    })
+    if(category && category.user_id === requestData.user_id ){
+      throw new Error(constants.messageKeys.en.msg_data_already_exits)
+    }else{
+      const data = await sqlInstance.sequelize.models.categories.update(requestData, { where: { category_id: requestData.category_id  }, raw: true })
       if (data[0] === 1) {
         console.log('Category Details Updated Successfully Of Category Id:', requestData.category_id)
         return true
-      } else {
+      }  
+      else {
         console.log('Failed To Update Category Details Of Category Id:', requestData.category_id)
         return false
       }
+    }
     } catch (error) {
-      if (error.name.toLowerCase() === 'sequelizeuniqueconstrainterror') {
-        console.log(`Category With Same Name Exist:`, error.message)
-        throw new Error(constants.messageKeys.en.msg_data_already_exits)
-      }
       console.log('Error in categories.updateCategory while updating category details. Error: %j', error.message)
       throw new Error(error)
     }
   }
-  
-module.exports = categories

@@ -3,21 +3,23 @@ const schemas = require('./auth-schema')
 const common = require('../../utils/common')
 const auth = require('./auth-model')
 
+/*signup service */
 module.exports.signUp = async (req , res ) => {
     try{
         const reqData = common.sanitize(req.body , schemas.createUser,  constants.moduleNames.users,)
-        if (schemas.validate(reqData, schemas.createUser)) {
+        const validationData = schemas.validate(reqData, schemas.createUser);
+        if (validationData.length === 0) {
             const authDetails = await auth.userRegistration(reqData)
             res.status(constants.httpStatusCode.success).send({
             code: constants.responseCodes.successfulOperation,
             message: constants.messageKeys.en.msg_success,
             data: authDetails
-      })
+          })
         }
         else {
-        res.status(constants.httpStatusCode.badRequest).send({
+       return res.status(constants.httpStatusCode.badRequest).send({
         code: constants.responseCodes.revalidation,
-        message: constants.messageKeys.en.msg_revalidate
+         message:validationData
       })
     }
     }catch(error){ 
@@ -28,6 +30,7 @@ module.exports.signUp = async (req , res ) => {
   }
 }
 
+/*verify user service */
 module.exports.verifyUser = async(req , res) => {
 try{
   const reqData = common.sanitize(req.body , schemas.verifyUser,  constants.moduleNames.users)
@@ -53,6 +56,7 @@ try{
 }
 }
 
+/*service for user login  */
 module.exports.login = async (req , res) => {
   try{
     const reqData = common.sanitize(req.body, schemas.login , constants.moduleNames.users)
@@ -64,10 +68,12 @@ module.exports.login = async (req , res) => {
     message: constants.messageKeys.en.msg_success,
     data: authDetails
     })
-    }res.status(constants.httpStatusCode.unauthorized).send({
+    }else{
+      res.status(constants.httpStatusCode.unauthorized).send({
     code: constants.responseCodes.unauthorizedAccess,
     message: constants.messageKeys.en.msg_unauthorized_user
     })
+    }
     }else{
     res.status(constants.httpStatusCode.badRequest).send({
     code: constants.responseCodes.revalidation,

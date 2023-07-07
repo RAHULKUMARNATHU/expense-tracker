@@ -15,9 +15,10 @@ module.exports = function (sequelize, DataTypes) {
       type:DataTypes.INTEGER,
       allowNull:true
       },
-      admin_id:{
-      type: DataTypes.INTEGER,
-      allowNull:true
+      is_created_by_admin:{
+      type: DataTypes.BOOLEAN,
+      defaultValue:false,
+      allowNull:false
       }
     },
     {
