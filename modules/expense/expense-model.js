@@ -1,8 +1,8 @@
 const sqlInstance = require("../../database/mysql");
 const constants = require("../../utils/constants");
-const { Op, col } = require("sequelize");
+const { Op, col, } = require("sequelize");
 const moment = require("moment");
-const { find } = require("lodash");
+
 
 exports.createExpense = async (requestData) => {
   try {
@@ -195,4 +195,5 @@ exports.getAllExpenseList = async (requestData) => {
     throw new Error(error); 
   }
 };
+
 

@@ -8,8 +8,9 @@ exports.createCategory = async function(req , res ){
     try{
       req.body.user_id = req.user.user_id
         const reqData = common.sanitize(req.body , schemas.createCategory, constants.moduleNames.categories)
-        if (schemas.validate(reqData, schemas.createCategory)) {
-            const categoryDetails = await categories.createCategory(reqData)
+        const validationData = common.validateSchema(reqData, schemas.createCategory);
+        if (validationData.length === 0) {
+             const categoryDetails = await categories.createCategory(reqData)
             res.status(constants.httpStatusCode.success).send({
             code: constants.responseCodes.successfulOperation,
             message: constants.messageKeys.en.msg_success,
@@ -19,7 +20,7 @@ exports.createCategory = async function(req , res ){
         else {
         res.status(constants.httpStatusCode.badRequest).send({
         code: constants.responseCodes.revalidation,
-        message: constants.messageKeys.en.msg_revalidate
+        message: validationData
       })
     }
     }catch(error){ 
@@ -34,7 +35,8 @@ exports.getAllCategoryList = async function (req, res) {
     try {
        req.query.user_id = req.user.user_id
       const requestDetails = common.sanitize(req.query, schemas.getCategories, constants.moduleNames.categories)
-      if (schemas.validate(requestDetails, schemas.getCategories)) {
+      const validationData = common.validateSchema(requestDetails, schemas.getCategories);
+        if (validationData.length === 0) {
         const categoriesList = await categories.getAllCategoryList(requestDetails)
         res.status(constants.httpStatusCode.success).send({
           code: constants.responseCodes.successfulOperation,
@@ -44,7 +46,7 @@ exports.getAllCategoryList = async function (req, res) {
       } else {
         res.status(constants.httpStatusCode.badRequest).send({
           code: constants.responseCodes.revalidation,
-          message: constants.messageKeys.en.msg_revalidate
+          message: validationData
         })
       }
     } catch (error) {
@@ -59,7 +61,8 @@ exports.getAllCategoryList = async function (req, res) {
     try {
       const requestDetails = common.sanitize(req.body, schemas.updateCategory, constants.moduleNames.categories)
       
-      if (schemas.validate(requestDetails, schemas.updateCategory)) {
+      const validationData = common.validateSchema(requestDetails, schemas.updateCategory);
+      if (validationData.length === 0) {
         const categoryDetails = await categories.updateCategory(requestDetails)
         res.status(constants.httpStatusCode.success).send({
           code: constants.responseCodes.successfulOperation,
@@ -69,7 +72,7 @@ exports.getAllCategoryList = async function (req, res) {
       } else {
         res.status(constants.httpStatusCode.badRequest).send({
           code: constants.responseCodes.revalidation,
-          message: constants.messageKeys.en.msg_revalidate
+          message: validationData
         })
       }
     } catch (error) {
