@@ -7,7 +7,7 @@ schemas.createExpense = {
   id: "/createExpense",
   type: "object",
   properties: {
-    category: {
+    category_id: {
       type: "string",
       required: true,
     },
@@ -20,10 +20,10 @@ schemas.createExpense = {
       type: "double",
       required: true,
     },
-    user_id: {
-      type: "integer",
-      required: true,
-    },
+    // user_id: {
+    //   type: "integer",
+    //   required: true,
+    // },
   },
 };
 
@@ -48,8 +48,87 @@ schemas.updateExpense = {
       type: "double",
       required: false,
     },
+    user_id : {
+      type: "integer",
+      require: true
+    }
   },
 };
+
+schemas.getAllExpense = {
+    id: '/getAllExpense',
+    type: 'object',
+    properties: {
+      expense_id: {
+        type: ['empty', 'null', 'string'],
+        required: false
+      },
+      search: {
+        type: ['empty', 'null', 'string'],
+        required: false
+      },
+      sort_by: {
+        type: ['empty', 'null', 'string'],
+        required: false
+      },
+      sort_type: {
+        type: ['empty', 'null', 'string'],
+        required: false
+      },
+      page: {
+        type: ['empty', 'null', 'string'],
+        required: false
+      },
+      limit: {
+        type: ['empty', 'null', 'string'],
+        required: false
+      },
+      user_id: {
+        type:'integer',
+        required: true
+      },
+      from_date: {
+        type: ['empty', 'null', 'string'],
+        required: false
+      },
+      to_date: {
+        type: ['empty', 'null', 'string'],
+        required: false
+      }
+    }
+  }
+
+  schemas.expenseSummery = {
+    id: "/expenseSummery",
+    type: "object",
+    properties: {
+      expense_id: {
+        type: "integer",
+        require: true,
+      },
+      category: {
+        type: "string",
+        required: false,
+      },
+      description: {
+        type: "string",
+        required: false,
+        maxLength: 200,
+      },
+      amount: {
+        type: "double",
+        required: false,
+      },
+      user_id : {
+        type: "integer",
+        require: true
+      },
+      month: {
+        type: 'string',
+        required: false
+      }
+    },
+  };
 
 schemas.validate = function (object, schema) {
   const errors = _validator.validate(object, schema).errors;
