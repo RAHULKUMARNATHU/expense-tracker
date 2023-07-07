@@ -2,7 +2,7 @@ module.exports = function (sequelize, DataTypes) {
   const expenses = sequelize.define(
     "expenses",
     {
-      id: {
+      expense_id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -18,13 +18,17 @@ module.exports = function (sequelize, DataTypes) {
       },
       amount: {
         type:DataTypes.DOUBLE(10, 2) 
+      },
+      user_id: {
+        type: DataTypes.INTEGER,
+        required: true
       }
     },
     {
-      tableName: "expenses",
+      tableName: "expenses", 
       timestamps: true,
       createdAt: "created_at",
-      updatedAt: "updated_at",
+      updatedAt: "updated_at"
     }
   )
 
@@ -39,6 +43,7 @@ module.exports = function (sequelize, DataTypes) {
     expenses.belongsTo(model.categories, {
       foreignKey: "category_id",
       targetKey: "category_id",
+      as: "categoryName"
     })
   }  
 
