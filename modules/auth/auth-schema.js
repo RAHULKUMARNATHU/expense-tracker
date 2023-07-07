@@ -1,5 +1,3 @@
-const Validator = require('jsonschema').Validator
-const _validator = new Validator()
 const {MESSAGES , REGEX} = require('../../utils/regex.util')
 const schemas = function(){}
 
@@ -41,7 +39,8 @@ schemas.verifyUser = {
     properties:{
         token :{
             type:'string',
-            required:true
+            required:true,
+            message:'Token should be of type string and it is required'
         }
     }
 }
@@ -53,23 +52,17 @@ schemas.login = {
     properties:{
         username:{
             type:'string',
-            required:true
+            required:true,
+            pattern: REGEX.EMAIL_FORMAT,
+            message:MESSAGES.EMAIL_FORMAT_MESSAGE
         },
         password:{
             type:'string',
-            required:true
+            required:true,
+            pattern: REGEX.PASSWORD_RULE,
+            message:MESSAGES.PASSWORD_RULE_MESSAGE
         }
     }
 }
 
-/*schema to validate is valid or not  */
-schemas.validate = function(object , schema){
-    const errors = _validator.validate(object , schema).errors
-    if(errors.length >0){
-        return errors.map((error) => {
-        return error.schema.message
-    })
-    }
-    return errors
-}
 module.exports = schemas
