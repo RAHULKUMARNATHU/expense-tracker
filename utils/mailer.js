@@ -1,7 +1,5 @@
 const nodemailer = require('nodemailer')
-
 const config = require('../configurations/config')
-const nodemailer = require('nodemailer')
 const smtpTransport = require('nodemailer-smtp-transport')
 
 
@@ -38,6 +36,7 @@ mailer.sendMail = function(data){
         const mailOptions = {
             from : config.get('mailer.supportMail'),
             to : data.recipientMail,
+            subject: data.mailSubject,
             html: data.content
         }
         sendMail(mailOptions).then((status) => {
@@ -50,16 +49,10 @@ mailer.sendMail = function(data){
 
 
 mailer.verifyUser  = async(to , body) =>{
-    const mailSubject = 'verify user link'
-    html= `Click <a href = "${link}"> here </a> to verify your email`
+    const  mailSubject = `link for verify user`
+    const content =  `Click <a href = "${body}"> here </a> to verify user`
     const recipientMail = to
-
-    // const content = t
-
-    const mailOptions = await mailer.sendMail({recipientMail})
+    const mailOptions = await mailer.sendMail({recipientMail , content , mailSubject})
 }
-
-
-
 
 module.exports = mailer

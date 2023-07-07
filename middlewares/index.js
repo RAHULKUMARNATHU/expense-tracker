@@ -31,6 +31,7 @@ module.exports = function(app){
 }
 
  const verifyToken = (req ,res , next) => {
+    /*For private routes */
     if(req.headers.authorization && constants.publicAPI.indexOf(req.path) < 0){
       const token = req.headers.authorization
       const userId = jwt.decode(token) ? jwt.decode(token).user_id : ""
@@ -39,9 +40,10 @@ module.exports = function(app){
       }else{
         req.isAuthenticatedUser = false
         next()
+      }       
       }
-        
-      }
+
+      /*For public routes */
       else if(constants.publicAPI.indexOf(req.path) >= 0){
         if(req.headers.authorization === constants.publicAccessToken.token){
           req.isAuthenticatedUser = true
@@ -69,7 +71,7 @@ const checkValidUserToken = async(token , userId , req , next) => {
     },{
       raw: true
     })
-    if(userDetails.isVerified) {
+    if(userDetails.is_verified) {
       req.isAuthenticatedUser = true
       userDetails = JSON.parse(JSON.stringify(userDetails))
       delete userDetails.password
@@ -89,7 +91,7 @@ const checkValidUserToken = async(token , userId , req , next) => {
 
 const verifyUserToken = async (token) => {
  const payload = await jwt.verify(token ,config.get("JWT_TOKEN.SECRET"), { expiresIn:  config.get('JWT_TOKEN.ExpireTime')} )
-  if(payload){
+ if(payload){
     return (null, constants.httpStatusCode.success)
   }else{
    return (constants.messageKeys.en.msg_session_expired, constants.httpStatusCode.forbidden)

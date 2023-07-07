@@ -11,6 +11,10 @@ schemas.createCategory = {
       type: "string",
       required: true,
     },
+    user_id:{
+      type:"Integer",
+      required:true
+    }
   },
 };
 
@@ -46,6 +50,10 @@ schemas.getCategories = {
       type: ["empty", "null", "string"],
       required: false,
     },
+    user_id:{
+      type:"integer",
+      required:true
+    }
   },
 };
 

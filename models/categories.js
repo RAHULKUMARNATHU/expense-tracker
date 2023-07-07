@@ -10,12 +10,16 @@ module.exports = function (sequelize, DataTypes) {
       category_name: {
         type: DataTypes.STRING(50),
         allowNull: false,
-        unique: true,
       },
       user_id: {
       type:DataTypes.INTEGER,
-      required:true
-    }
+      allowNull:true
+      },
+      is_created_by_admin:{
+      type: DataTypes.BOOLEAN,
+      defaultValue:false,
+      allowNull:false
+      }
     },
     {
       tableName: "categories",
