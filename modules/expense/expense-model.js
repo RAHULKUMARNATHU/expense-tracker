@@ -1,6 +1,6 @@
 const sqlInstance = require("../../database/mysql");
 const constants = require("../../utils/constants");
-const { Op, col } = require("sequelize");
+const { Op, col, } = require("sequelize");
 const moment = require("moment");
 
 // Create Expense
@@ -239,64 +239,6 @@ exports.chartDetails = async (requestData) => {
   }
 };
 
-
-// exports.chartDetails = async (requestData) => {
-//   try {
-//     const Condition = {};
-//     Condition.user_id = requestData;
-
-//     let chartDetails = await sqlInstance.expenses.findAll({
-//       where: Condition,
-//       attributes: [
-//         [
-//           sqlInstance.sequelize.literal('SUM(amount)'),
-//           'total_expense'
-//         ],
-//         [
-//           sqlInstance.sequelize.col('categoryName.category_name'),
-//           'category_name'
-//         ],
-//         'created_at'
-//       ],
-//       include: [
-//         {
-//           model: sqlInstance.categories,
-//           as: 'categoryName',
-//           attributes: [],
-//         },
-//       ],
-//       group: ['categoryName.category_name', 'expenses.created_at'],
-//       raw: true, // Retrieve raw data
-//     });
-
-//     // Create a new array to store the modified chart details
-//     let modifiedChartDetails = [];
-
-//     // Iterate through the original chart details
-//     for (const detail of chartDetails) {
-//       // Check if there is already an entry for the category in the modified array
-//       const existingEntry = modifiedChartDetails.find(entry => entry.category_name === detail.category_name);
-
-//       // If an entry exists, update the total_expense value
-//       if (existingEntry) {
-//         existingEntry.total_expense += detail.total_expense;
-//       } else {
-//         // If no entry exists, add a new entry to the modified array
-//         modifiedChartDetails.push({
-//           total_expense: detail.total_expense,
-//           category_name: detail.category_name,
-//           created_at: detail.created_at
-//         });
-//       }
-//     }
-
-//     return {
-//         chartDetails: modifiedChartDetails,
-//     };
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// };
 
 
 

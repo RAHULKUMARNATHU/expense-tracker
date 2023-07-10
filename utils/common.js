@@ -2,9 +2,10 @@ const constants = require('./constants')
 const config = require('../configurations/config')
 const _ = require('lodash')
 const jwt = require("jsonwebtoken")
+const Validator = require('jsonschema').Validator
+const _validator = new Validator()
 
-
-const sanitize = function(object , schema , modelName){
+exports.sanitize = function(object , schema , modelName){
     const schemaKeys = _.keys(schema.properties)
     const objectKeys = _.keys(object)
     const constantsValues = _.values(constants.keys)
@@ -33,8 +34,18 @@ const sanitize = function(object , schema , modelName){
     return object
 }
 
+/*schema to validate is valid or not  */
+exports.validateSchema = function(object , schema){
+    const errors = _validator.validate(object , schema).errors
+    if(errors.length >0){
+        return errors.map((error) => {
+        return error.schema.message
+    })
+    }
+    return errors
+}
 
-const generateToken =  async(reqData)=>{
+exports.generateToken =  async(reqData)=>{
     const payload = {
         user_id : reqData.user_id,
     }
@@ -43,7 +54,7 @@ const generateToken =  async(reqData)=>{
     { expiresIn:  config.get('JWT_TOKEN.ExpireTime')})  
 }
 
-const decryptToken = async (token) => {
+exports.decryptToken = async (token) => {
  if(!token){
     return (constants.messageKeys.en.msg_session_expired, constants.httpStatusCode.forbidden)
  }
@@ -58,8 +69,8 @@ const decryptToken = async (token) => {
 
 
 
-module.exports = {
-    sanitize: sanitize,
-    generateToken: generateToken,
-    decryptToken: decryptToken
-}
+// module.exports = {
+//     sanitize: sanitize,
+//     generateToken: generateToken,
+//     decryptToken: decryptToken
+// }

@@ -7,7 +7,7 @@ const auth = require('./auth-model')
 module.exports.signUp = async (req , res ) => {
     try{
         const reqData = common.sanitize(req.body , schemas.createUser,  constants.moduleNames.users,)
-        const validationData = schemas.validate(reqData, schemas.createUser);
+        const validationData = common.validateSchema(reqData, schemas.createUser);
         if (validationData.length === 0) {
             const authDetails = await auth.userRegistration(reqData)
             res.status(constants.httpStatusCode.success).send({
@@ -34,7 +34,8 @@ module.exports.signUp = async (req , res ) => {
 module.exports.verifyUser = async(req , res) => {
 try{
   const reqData = common.sanitize(req.body , schemas.verifyUser,  constants.moduleNames.users)
-   if (schemas.validate(reqData, schemas.verifyUser)) {
+   const validationData = common.validateSchema(reqData, schemas.verifyUser);
+    if (validationData.length === 0) {
     const data = await common.decryptToken(req.body.token)
     const authDetails = await auth.verifyUser(data)
     res.status(constants.httpStatusCode.success).send({
@@ -45,7 +46,7 @@ try{
    }else{
     res.status(constants.httpStatusCode.badRequest).send({
     code: constants.responseCodes.revalidation,
-    message: constants.messageKeys.en.msg_revalidate
+    message: validationData
     })
    }
 }catch(error){
@@ -60,7 +61,8 @@ try{
 module.exports.login = async (req , res) => {
   try{
     const reqData = common.sanitize(req.body, schemas.login , constants.moduleNames.users)
-    if(schemas.validate(reqData , schemas.login)){
+    const validationData = common.validateSchema(reqData, schemas.login);
+    if (validationData.length === 0) {
     const authDetails = await auth.login(reqData)
     if(authDetails){
     res.status(constants.httpStatusCode.success).send({
@@ -77,7 +79,7 @@ module.exports.login = async (req , res) => {
     }else{
     res.status(constants.httpStatusCode.badRequest).send({
     code: constants.responseCodes.revalidation,
-    message: constants.messageKeys.en.msg_revalidate
+    message: validationData
     })
   }
   }catch(error){
