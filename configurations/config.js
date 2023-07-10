@@ -134,17 +134,17 @@ const config = convict({
     email: {
       doc: 'Mailer Authentication Email',
       format: String,
-      default: 'apikey'
+      default: 'apikeys'
     },
     password: {
       doc: 'Mailer Authentication Password',
       format: String,
-      default: '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'
+      default: 'SG.YG16iVrTSNGrLxMJhkxFkw.iOkrYYx9QiGQLF-ByWfNnudLmcSJLEYP9F25sGwH1iII'
     },
      supportMail: {
       doc: 'Mailer Support Email',
       format: String,
-      default: 'me.kumarrahul9572@gmail.com'
+      default: 'me.kumarrahul@gmail.com'
     }
     
   }
