@@ -1,20 +1,19 @@
 const sqlInstance = require("../../database/mysql");
 const constants = require("../../utils/constants");
 const { Op, col, } = require("sequelize");
+const notification = require('../notification/notification')
 const moment = require("moment");
 
 // Create Expense
 exports.createExpense = async (requestData) => {
   try {
     await sqlInstance.sequelize.models.expenses.create(requestData, {raw: true});
-    console.log("Expense Created Successfully for the category",requestData.category);
+    notification.sendExpenseNotification(requestData.user_id)
     return true;
   } catch (error) {
     if (error.name.toLowerCase() === "sequelizeforeignkeyconstrainterror") {
-      console.log(`Cannot Create Expense.The referenced category does not exist:`,error.message);
       throw new Error(constants.messageKeys.en.msg_ref_error);
     }
-    console.log("Error in expense.createExpense while saving expense details. Error: %j",error.message);
     throw new Error(error);
   }
 };
@@ -34,15 +33,13 @@ exports.updateExpense = async (requestData) => {
         { where: { expense_id: requestData.expense_id }, raw: true }
       );
       if (data[0] === 1) {
-        console.log("Expense Details Updated Successfully Of Expense Id:",requestData.expense_id);
+        notification.sendExpenseNotification(requestData.user_id)
         return true;
       } else {
-        console.log("Failed To Updated expense Details Of Expense Id:",requestData.expense_id);
         return false;
       }
     }
   } catch (error) {
-    console.log("Error in expense.updateExpense while updating expense details. Error: %j",error.message);
     throw new Error(error);
   }
 };
@@ -121,7 +118,6 @@ exports.expenseSummery = async (requestData) => {
       };
     }
   } catch (error) {
-    console.log("Error in expense.getAllExpenseList while fetching the all Expense list. Error: %j",error.message);
     throw new Error(error);
   }
 };
@@ -184,7 +180,6 @@ exports.getAllExpenseList = async (requestData) => {
     expense = JSON.parse(JSON.stringify(expense));
 
     if (expense.rows.length > 0) {
-      console.log("Fetched All Expense List Successfully.");
       return {
         total_count: expense.count,
         expenseList: expense.rows,
@@ -193,7 +188,6 @@ exports.getAllExpenseList = async (requestData) => {
           expense.count,
       };
     } else {
-      console.log("No Expense Data Found ");
       return {
         total_count: 0,
         expenseList: [],
@@ -201,7 +195,6 @@ exports.getAllExpenseList = async (requestData) => {
       };
     }
   } catch (error) {
-    console.log("Error in expense.getAllExpenseList while fetching the all Expense list. Error: %j",error.message);
     throw new Error(error);
   }
 };
@@ -238,6 +231,17 @@ exports.chartDetails = async (requestData) => {
     throw new Error(error);
   }
 };
+
+//set monthly expense limit(example demo api1)
+exports.setExpenseLimit = async (requestData) => {
+  try {
+    if(requestData.user_id){
+      notification.preSetExpenseAmount(requestData.setExpenseLimit)
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+}
 
 
 

@@ -126,6 +126,18 @@ schemas.getAllExpense = {
     },
   };
 
+  schemas.setExpenseLimit = {
+    id: "/setExpenseLimit",
+    type: "object",
+    properties: {
+      setExpenseLimit: {
+        type: "integer",
+        required: true,
+        message:"setExpenseLimit must be of type number"
+      }
+    },
+  };
+
 schemas.validate = function (object, schema) {
   const errors = _validator.validate(object, schema).errors;
   if (errors.length > 0) {
