@@ -122,3 +122,28 @@ exports.createExpense = async function (req, res) {
         })
       }
   }
+
+  exports.setExpenseLimit = async function (req, res) {
+    try {
+      const requestDetails = common.sanitize(req.body, schemas.setExpenseLimit, constants.moduleNames.expenses)
+      requestDetails.user_id = req.user.user_id
+      if (schemas.validate(requestDetails, schemas.setExpenseLimit)) {
+        const expenseDetails = await expense.setExpenseLimit(requestDetails)
+        res.status(constants.httpStatusCode.success).send({
+          code: constants.responseCodes.successfulOperation,
+          message: constants.messageKeys.en.msg_success,
+          data: expenseDetails
+        })
+      } else {
+        res.status(constants.httpStatusCode.badRequest).send({
+          code: constants.responseCodes.revalidation,
+          message: constants.messageKeys.en.msg_revalidate
+        })
+      }
+    } catch (error) {
+      res.status(constants.responseCodes.failedOperation).send({
+        code: constants.responseCodes.failedOperation,
+        message: error.message
+      })
+    }
+  }

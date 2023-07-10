@@ -6,4 +6,5 @@ module.exports = function (app) {
     app.get('/expense/list', service.getAllExpenseList)
     app.get('/expense/summery', service.expenseSummery)
     app.get('/expense/chartDetails', service.chartDetails)
+    app.get('/expense/setExpenseLimit', service.setExpenseLimit)
 }
