@@ -103,3 +103,22 @@ exports.createExpense = async function (req, res) {
         })
       }
   }
+
+  exports.chartDetails = async function (req, res) {
+    const requestDetails = req.user.user_id
+    console.log(requestDetails);
+    
+    try {
+          const chartDetails = await expense.chartDetails(requestDetails)
+          res.status(constants.httpStatusCode.success).send({
+            code: constants.responseCodes.successfulOperation,
+            message: constants.messageKeys.en.msg_success,
+            data: chartDetails
+          })
+      } catch (error) {
+        res.status(constants.httpStatusCode.success).send({
+          code: constants.responseCodes.failedOperation,
+          message: error.message
+        })
+      }
+  }
