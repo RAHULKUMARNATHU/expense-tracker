@@ -20,10 +20,6 @@ schemas.createExpense = {
       type: "double",
       required: true,
     },
-    // user_id: {
-    //   type: "integer",
-    //   required: true,
-    // },
   },
 };
 

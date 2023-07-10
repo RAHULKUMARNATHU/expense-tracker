@@ -5,4 +5,5 @@ module.exports = function (app) {
     app.put('/expense/update', service.updateExpense)
     app.get('/expense/list', service.getAllExpenseList)
     app.get('/expense/summery', service.expenseSummery)
+    app.get('/expense/chartDetails', service.chartDetails)
 }
