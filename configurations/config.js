@@ -139,12 +139,12 @@ const config = convict({
     password: {
       doc: 'Mailer Authentication Password',
       format: String,
-      default: 'SG.YG16iVrTSNGrLxMJhkxFkw.iOkrYYx9QiGQLF-ByWfNnudLmcSJLEYP9F25sGwH1iII'
+      default: 'mailerAuthPass'
     },
      supportMail: {
       doc: 'Mailer Support Email',
       format: String,
-      default: 'me.kumarrahul@gmail.com'
+      default: 'me.kumarrahul123@gmail.com'
     }
     
   }
