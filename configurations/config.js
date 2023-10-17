@@ -151,12 +151,6 @@ const config = convict({
 });
 
 
-// TRANSPORT_HOST =smtp.sendgrid.net
-// TRANSPORT_USER =apikey
-// TRANSPORT_PASS = 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
-// FROM = me.kumarrahul9572@gmail.com
-
-
 config.loadFile(path.join(__dirname, '/config-' + config.get('env') + '.json'))
 
 // validate
